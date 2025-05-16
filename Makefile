@@ -1,8 +1,8 @@
 ###################################################################################################
-# Makefile for MSP432P401R rev 1.0.0 [5/15/24]
+# Makefile for MSP432P401R rev 1.0.1 [5/15/24]
 ###################################################################################################
 
-# Project folder name holder (default to build Blinky if not specified in tasks.json or on CLI)
+# Project folder name holder (default to build Blinky if not specified on CLI)
 PROJECT_NAME = Blinky
 
 # make target should be named "main"
