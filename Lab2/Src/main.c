@@ -10,7 +10,8 @@
  * will turn the blue LED off and the red LED on. This pattern repeats
  * infinitely.
  *
- * Notes: This code uses the driverlib static library functions. Most likely inefficient
+ * Notes: This code uses the driverlib static library functions. Most likely
+ * inefficient
  */
 
 #include "driverlib.h"
@@ -19,10 +20,6 @@
 /* Removes error squiggles that are false errors from include path settings */
 #include "msp432p401r.h"
 
-/// @brief This function is made to debounce the button MSP432 Launchpad on
-/// PORT1 PIN1.
-/// @return 1 if a button press occurred. 0 if false bounce or no press
-/// occurred.
 bool debounceButton1(void);
 
 int main(void) {
@@ -30,15 +27,19 @@ int main(void) {
 
   MAP_WDT_A_holdTimer(); /* Stop watchdog timer */
 
-  GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1); // S1
-  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN0 | GPIO_PIN1 | GPIO_PIN2);              
+  /* Set S1 pin to input with internal pull-up resistor and LED pins to ouput */
+  GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
+  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN0 | GPIO_PIN1 | GPIO_PIN2);
 
   while (1) {
+
+    /* ledCount cycles 1-3 increasing after each button press */
     if (debounceButton1()) {
       ledCount++;
       ledCount = ledCount == 4 ? 1 : ledCount;
     }
 
+    /* follow the LED on/off sequence described in title block */
     switch (ledCount) {
     case 1:
       GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN0);
@@ -64,6 +65,10 @@ int main(void) {
   }
 }
 
+/// @brief This function is made to debounce the button (S1) MSP432 Launchpad on
+/// PORT1 PIN1.
+/// @return 1 if a button press occurred. 0 if false bounce or no press
+/// occurred.
 bool debounceButton1(void) {
   static uint16_t lBounceState = 0x0000;
   lBounceState = (lBounceState << 1) |
