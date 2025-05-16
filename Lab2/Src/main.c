@@ -10,7 +10,7 @@
  * will turn the blue LED off and the red LED on. This pattern repeats
  * infinitely.
  *
- * Notes: This code uses the driverlib static library functions.
+ * Notes: This code uses the driverlib static library functions. Most likely inefficient
  */
 
 #include "driverlib.h"
@@ -31,9 +31,7 @@ int main(void) {
   MAP_WDT_A_holdTimer(); /* Stop watchdog timer */
 
   GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1); // S1
-  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN0);                  // Red
-  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN1);                  // Green
-  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN2);                  // Blue
+  GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN0 | GPIO_PIN1 | GPIO_PIN2);              
 
   while (1) {
     if (debounceButton1()) {
@@ -44,18 +42,15 @@ int main(void) {
     switch (ledCount) {
     case 1:
       GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN0);
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1);
       GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2);
       break;
 
     case 2:
       GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0);
       GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN1);
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2);
       break;
 
     case 3:
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0);
       GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1);
       GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN2);
       break;
