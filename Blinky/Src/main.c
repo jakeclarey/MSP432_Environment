@@ -13,6 +13,8 @@
 /* Removes error squiggles that are false errors from include path settings */
 #include "msp432p401r.h"
 
+#define BLINK_DELAY 1000000
+
 int main(void) {
   volatile uint32_t i = 0;
   MAP_WDT_A_holdTimer(); /* Stop watchdog timer */
@@ -25,8 +27,8 @@ int main(void) {
   while (1) {
     i++;
     GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
-    SysCtlDelay(1000000);
+    SysCtlDelay(BLINK_DELAY);
     GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
-    SysCtlDelay(1000000);
+    SysCtlDelay(BLINK_DELAY);
   }
 }

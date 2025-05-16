@@ -135,7 +135,8 @@ help:
 ###################################################################################################
 .PHONY: flash
 
-flash: openocd -f board/ti_msp432_launchpad.cfg -c "program \!build/main.bin reset exit"
+flash: 
+	openocd -f board/ti_msp432_launchpad.cfg -c "program \!build/main.bin reset exit"
 
 ###################################################################################################
 # all
