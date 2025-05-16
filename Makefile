@@ -10,7 +10,7 @@ TARGET = main
 
 # WARNING: when optimizing for speed, floating point operations can be corrupted.
 DEBUG = 1
-OPT = -O0 # preferred optimization. In order for speed: O0, O1, O2, O3, Ofast.
+OPT = -Os # preferred optimization. In order for speed: O0, O1, O2, O3, Ofast.
 
 # Build path
 BUILD_DIR = !build
@@ -143,7 +143,7 @@ flash:
 ###################################################################################################
 .PHONY: all
 
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+all: clean | $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 
 ###################################################################################################
 # build the application
