@@ -2,14 +2,14 @@
  * Author: Jacob Clarey
  * Instructor: Dr. Parikh
  * Date: 5/16/25
- * 
+ *
  * Description: This is the LED cycling code for Lab 2. Upon start up, the RGB
  * LEDs are all off. After pressing S1, the red LED will illuminate and stay on.
  * A second press will turn the red LED off and turn the green LED on. A third
  * press will turn the green LED off and turn the blue LED on. A fourth press
  * will turn the blue LED off and the red LED on. This pattern repeats
- * infinitely. 
- * 
+ * infinitely.
+ *
  * Notes: This code uses the driverlib static library functions.
  */
 
@@ -78,3 +78,5 @@ bool debounceButton1(void) {
   }
   return false;
 }
+
+/* EOF */
