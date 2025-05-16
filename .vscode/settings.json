@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "msp.h": "c",
+    "driverlib.h": "c",
+    "systick.h": "c"
+  }
+}
