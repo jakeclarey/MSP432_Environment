@@ -120,7 +120,8 @@ LDFLAGS = $(MCU) --specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) !DeviceSpeci
 help:
 	@echo -----------------------------------------------------------------------------------------
 	@echo Available Targets:
-	@echo 	flash: BEING RE-WRITTEN FOR MSP432P401R. DO NOT CALL.
+	@echo 	flash: Flashes the built project to the MSP432P401R.
+	@echo			Usage: make flash
 	@echo 	all PROJECT_NAME=folder_name: Builds specified project.
 	@echo 		Usage: make all PROJECT_NAME=folder_name
 	@echo 	clean: Cleans out the build directory.
@@ -134,8 +135,7 @@ help:
 ###################################################################################################
 .PHONY: flash
 
-flash: $(BUILD_DIR)/$(TARGET).bin
-	openocd -f board/ti_msp432_launchpad.cfg -c "program \!build/main.bin reset exit"
+flash: openocd -f board/ti_msp432_launchpad.cfg -c "program \!build/main.bin reset exit"
 
 ###################################################################################################
 # all
