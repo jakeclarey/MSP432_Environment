@@ -3,5 +3,6 @@
     "msp.h": "c",
     "driverlib.h": "c",
     "systick.h": "c"
-  }
+  },
+  "cortex-debug.gdbPath": "gdb-multiarch" // comment this line out if on MacOS, leave in on Linux
 }
