@@ -42,24 +42,24 @@ int main(void) {
     /* follow the LED on/off sequence described in title block */
     switch (ledCount) {
     case 1:
-      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN0);
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2);
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2);  // Blue off
+      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN0); // Red on
       break;
 
     case 2:
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0);
-      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN1);
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0);  // Red off
+      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN1); // Green on
       break;
 
     case 3:
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1);
-      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN2);
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1);  // Green off
+      GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN2); // Blue on
       break;
 
     default:
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0);
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1);
-      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2);
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN0); // Red off
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN1); // Green off
+      GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN2); // Blue off
       break;
     }
   }
