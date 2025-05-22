@@ -37,10 +37,7 @@ int main(void) {
   P2->SEL0 = 0;
   P2->SEL1 = 0;
   P2->DIR |= (BIT0 | BIT1 | BIT2);
-
-  P2->OUT &= ~BIT0; // Red off
-  P2->OUT &= ~BIT1; // Green off
-  P2->OUT &= ~BIT2; // Blue off
+  P2->OUT &= ~(BIT0 | BIT1 | BIT2); // RGB off
 
   while (1) {
     /* ledCycle cycles 1-3 increasing after each button press */
