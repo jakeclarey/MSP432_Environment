@@ -37,13 +37,13 @@ PREFIX = arm-none-eabi-
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 CPP = $(GCC_PATH)/$(PREFIX)g++
-AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
+AS = $(GCC_PATH)/$(PREFIX)as # -x assembler-with-cpp
 CP = $(GCC_PATH)/$(PREFIX)objcopy
 SZ = $(GCC_PATH)/$(PREFIX)size
 else
 CC = $(PREFIX)gcc
 CPP = $(PREFIX)g++
-AS = $(PREFIX)gcc -x assembler-with-cpp
+AS = $(PREFIX)as # -x assembler-with-cpp
 CP = $(PREFIX)objcopy
 SZ = $(PREFIX)size
 endif
@@ -63,7 +63,7 @@ FPU = -mfpu=fpv4-sp-d16
 FLOAT-ABI = -mfloat-abi=hard
 
 # mcu
-MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+MCU = $(CPU) $(FPU) $(FLOAT-ABI)
 
 # macros for gcc
 # AS defines
@@ -87,7 +87,7 @@ CPP_INCLUDES = \
 -I$(PROJECT_NAME)/Core/Inc \
 
 # compile gcc flags
-ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) -Wall -mccs
 
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
@@ -165,7 +165,7 @@ $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) $< -o $@
+	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@

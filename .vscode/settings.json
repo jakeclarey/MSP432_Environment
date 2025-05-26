@@ -4,5 +4,6 @@
     "driverlib.h": "c",
     "systick.h": "c"
   },
-  "cortex-debug.gdbPath": "gdb-multiarch" // comment this line out if on MacOS, leave in on Linux
+  "cortex-debug.variableUseNaturalFormat": false,
+  // "cortex-debug.gdbPath": "gdb-multiarch" // comment this line out if on MacOS, leave in on Linux
 }

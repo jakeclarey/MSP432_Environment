@@ -23,22 +23,18 @@ unsigned short debounceButton1(void);
 int main(void) {
   unsigned int ledCycle = 0;
 
-  /* Stop watchdog timer */
-  // WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
-  *((unsigned long long *)0x40004800 + 0x0C) |= 0x5A80;
-
   /* Port 1 set to GPIO with P1.1 as input with pull-up resistor */
-  P1->SEL0 = 0;
+  *((unsigned long long *)0x40004C0A) = 0;
   P1->SEL1 = 0;
-  P1->DIR &= ~BIT1;
-  P1->OUT |= BIT1;
-  P1->REN |= BIT1;
+  P1->DIR &= ~0x02;
+  *((unsigned long long *)0x40004C02) |= 0x02;
+  *((unsigned long long *)0x40004C06) |= 0x02;
 
   /* Port 2 set to GPIO with P2.0-2 as output, initialize all off */
-  P2->SEL0 = 0;
-  P2->SEL1 = 0;
-  P2->DIR |= (BIT0 | BIT1 | BIT2);
-  P2->OUT &= ~(BIT0 | BIT1 | BIT2); // RGB off
+  *((unsigned long long *)0x40004C0B) = 0;
+  *((unsigned long long *)0x40004C0D) = 0;
+  *((unsigned long long *)0x40004C05) |= (0x01 | 0x02 | 0x04);
+  *((unsigned long long *)0x40004C03) &= ~(0x01 | 0x02 | 0x04); // RGB off
 
   while (1) {
     /* ledCycle cycles 1-3 increasing after each button press */
@@ -49,18 +45,18 @@ int main(void) {
 
     /* follow the LED on/off sequence described in title block */
     if (ledCycle == 1) {
-      P2->OUT &= ~BIT2; // Blue off
-      P2->OUT |= BIT0;  // Red on
+      *((unsigned long long *)0x40004C03) &= ~0x04; // Blue off
+      *((unsigned long long *)0x40004C03) |= 0x01;  // Red on
     }
 
     if (ledCycle == 2) {
-      P2->OUT &= ~BIT0; // Red off
-      P2->OUT |= BIT1;  // Green on
+      *((unsigned long long *)0x40004C03) &= ~0x01; // Red off
+      *((unsigned long long *)0x40004C03) |= 0x02;  // Green on
     }
 
     if (ledCycle == 3) {
-      P2->OUT &= ~BIT1; // Green off
-      P2->OUT |= BIT2;  // Blue on
+      *((unsigned long long *)0x40004C03) &= ~0x02; // Green off
+      *((unsigned long long *)0x40004C03) |= 0x04;  // Blue on
     }
   }
 }
@@ -71,7 +67,7 @@ int main(void) {
 /// occurred.
 unsigned short debounceButton1(void) {
   static unsigned short lBounceState = 0x0000;
-  lBounceState = (lBounceState << 1) | !(P1->IN & BIT1) | 0xE000;
+  lBounceState = (lBounceState << 1) | !((P1->IN) & 0x02) | 0xE000;
   if (lBounceState == 0xF000) {
     return 1;
   }
