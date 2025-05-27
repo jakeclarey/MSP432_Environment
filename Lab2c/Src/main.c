@@ -25,8 +25,8 @@ int main(void) {
 
   /* Port 1 set to GPIO with P1.1 as input with pull-up resistor */
   *((unsigned long long *)0x40004C0A) = 0;
-  P1->SEL1 = 0;
-  P1->DIR &= ~0x02;
+  P1->SEL1 = 0;     // cannot get working using memory address writing
+  P1->DIR &= ~0x02; // cannot get working using memory address writing
   *((unsigned long long *)0x40004C02) |= 0x02;
   *((unsigned long long *)0x40004C06) |= 0x02;
 
@@ -67,6 +67,8 @@ int main(void) {
 /// occurred.
 unsigned short debounceButton1(void) {
   static unsigned short lBounceState = 0x0000;
+
+   /* cannot get working using memory address writing */
   lBounceState = (lBounceState << 1) | !((P1->IN) & 0x02) | 0xE000;
   if (lBounceState == 0xF000) {
     return 1;
