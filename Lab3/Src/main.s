@@ -24,16 +24,30 @@ P2SEL1  .word   0x40004C0D  // PORT 2 SELECT 1
   .thumb_func
 
 main:
-  BL  LED_INIT
+  BL  GPIO_INIT
 Loop
-  BL  LED_TOGGLE
+  BL  READ_S1_S2
+  MOV R3, R0
 
-  MOV R0, #1000
-  BL  Delay
+  CMP R3, #0x12
+  IT  EQ
+  BLEQ  RGB_OFF
+
+  CMP R3, #0x02
+  IT  EQ
+  BLEQ  RED_ONLY
+
+  CMP R3, #0x10
+  IT  EQ
+  BLEQ  BLUE_ONLY
+
+  CMP R3, #0x00
+  IT  EQ
+  BLEQ  GREEN_ONLY
   
   B Loop
 
-LED_INIT:
+GPIO_INIT:
   LDR   R1, P1SEL0
   MOV   R0, #0x00
   STRB  R0, [R1]
@@ -47,11 +61,11 @@ LED_INIT:
   STRB  R0, [R1]
 
   LDR   R1, P1OUT
-  MOV   R0, #0x02
+  MOV   R0, #0x12
   STRB  R0, [R1]
 
   LDR   R1, P1REN
-  MOV   R0, #0x02
+  MOV   R0, #0x12
   STRB  R0, [R1]
 
   LDR   R1, P2SEL0
@@ -71,23 +85,38 @@ LED_INIT:
   STRB  R0, [R1]
   BX    LR
 
-LED_TOGGLE:
+RED_ONLY:
   LDR   R1, P2OUT
   LDRB  R0, [R1]
-  EOR   R0, R0, #0x07
+  MOV   R0, #0x01
   STRB  R0, [R1]
   BX    LR
 
-Delay:
-  MOVS  R1, R0
-  BNE   L1
+GREEN_ONLY:
+  LDR   R1, P2OUT
+  LDRB  R0, [R1]
+  MOV   R0, #0x02
+  STRB  R0, [R1]
   BX    LR
-L1
-  MOV   R1, #250
-L2
-  SUBS  R1, #1
-  BNE   L2
-  SUBS  R0, #1
-  BNE   L1
+
+BLUE_ONLY:
+  LDR   R1, P2OUT
+  LDRB  R0, [R1]
+  MOV   R0, #0x04
+  STRB  R0, [R1]
   BX    LR
+
+RGB_OFF:
+  LDR   R1, P2OUT
+  LDRB  R0, [R1]
+  MOV   R0, #0x00
+  STRB  R0, [R1]
+  BX    LR
+
+READ_S1_S2:
+  LDR   R0, P1IN
+  LDRB  R1, [R0]
+  AND   R0, R1, #0x12
+  BX    LR
+  
   .end
