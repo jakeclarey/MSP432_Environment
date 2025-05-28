@@ -1,3 +1,15 @@
+/**
+ * Author: Jacob Clarey
+ * Instructor: Dr. Parikh
+ * Date: 5/29/25
+ *
+ * Description: This is the LED and button code for Lab 3. Upon start up, the
+ * RGB LEDs are all off. While S1 is pressed, the blue LED will illuminate.
+ * While S2 is pressed, the red LED will illuminate. While both S1 and S2 are
+ * pressed, the only the green LED will illuminate. If no buttons are pressed
+ * the LEDs will all remain off.
+ *
+ */
   .syntax unified
   .thumb
 
@@ -26,30 +38,31 @@ P2SEL1  .word   0x40004C0D  // PORT 2 SELECT 1
 main:
   BL  GPIO_INIT
 Loop
-  BL  READ_S1_S2
-  MOV R3, R0
+  BL  READ_S1_S2    // Keep S1 and S2 state in R3
+  MOV R3, R0        // R0 changes in following subroutines, R3 does not
 
-  CMP R3, #0x12
+  CMP R3, #0x12     // True if no buttons are pressed
   IT  EQ
   BLEQ  RGB_OFF
 
-  CMP R3, #0x02
+  CMP R3, #0x02     // True if S2 is pressed
   IT  EQ
   BLEQ  RED_ONLY
 
-  CMP R3, #0x10
+  CMP R3, #0x10     // True if S1 is pressed
   IT  EQ
   BLEQ  BLUE_ONLY
 
-  CMP R3, #0x00
+  CMP R3, #0x00     // True if S1 and S2 are pressed
   IT  EQ
   BLEQ  GREEN_ONLY
   
   B Loop
 
 GPIO_INIT:
+  /* The P1XXXX lines are to set P1.1 + P1.4 to input with pull-up resistors */
   LDR   R1, P1SEL0
-  MOV   R0, #0x00
+  MOV   R0, #0x00   
   STRB  R0, [R1]
 
   LDR   R1, P1SEL1
@@ -68,6 +81,7 @@ GPIO_INIT:
   MOV   R0, #0x12
   STRB  R0, [R1]
 
+  /* The P2XXXX lines are to set P2.0-2 to output */
   LDR   R1, P2SEL0
   MOV   R0, #0x00
   STRB  R0, [R1]
@@ -111,12 +125,12 @@ RGB_OFF:
   LDRB  R0, [R1]    // Load the value at the address into R0
   MOV   R0, #0x00   // Modify all bits of value to 0 for RGB Off
   STRB  R0, [R1]    // Store new value at the peripheral address
-  BX    LR          @ Branch back to main
+  BX    LR          // Branch back to main
 
 READ_S1_S2:
-  LDR   R0, P1IN
-  LDRB  R1, [R0]
-  AND   R0, R1, #0x12
-  BX    LR
+  LDR   R0, P1IN        // Load P1->IN address into R0
+  LDRB  R1, [R0]        // Load the value at the address into R1
+  AND   R0, R1, #0x12   // Clear R0, keeping values of bits 4 and 1
+  BX    LR              // Branch back to main
   
   .end
