@@ -86,32 +86,32 @@ GPIO_INIT:
   BX    LR
 
 RED_ONLY:
-  LDR   R1, P2OUT
-  LDRB  R0, [R1]
-  MOV   R0, #0x01
-  STRB  R0, [R1]
-  BX    LR
+  LDR   R1, P2OUT   // Load P2->OUT address into R1
+  LDRB  R0, [R1]    // Load the value at the address into R0
+  MOV   R0, #0x01   // Modify all bits of value to 0 except bit 0 for Red On
+  STRB  R0, [R1]    // Store new value at the peripheral address
+  BX    LR          // Branch back to main
 
 GREEN_ONLY:
-  LDR   R1, P2OUT
-  LDRB  R0, [R1]
-  MOV   R0, #0x02
+  LDR   R1, P2OUT   // Load P2->OUT address into R1
+  LDRB  R0, [R1]    // Load the value at the address into R0
+  MOV   R0, #0x02   // Modify all bits of value to 0 except bit 1 for Green On
   STRB  R0, [R1]
   BX    LR
 
 BLUE_ONLY:
-  LDR   R1, P2OUT
-  LDRB  R0, [R1]
-  MOV   R0, #0x04
-  STRB  R0, [R1]
-  BX    LR
+  LDR   R1, P2OUT   // Load P2->OUT address into R1
+  LDRB  R0, [R1]    // Load the value at the address into R0
+  MOV   R0, #0x04   // Modify all bits of value to 0 except bit 2 for Blue On
+  STRB  R0, [R1]    // Store new value at the peripheral address
+  BX    LR          // Branch back to main
 
 RGB_OFF:
-  LDR   R1, P2OUT
-  LDRB  R0, [R1]
-  MOV   R0, #0x00
-  STRB  R0, [R1]
-  BX    LR
+  LDR   R1, P2OUT   // Load P2->OUT address into R1
+  LDRB  R0, [R1]    // Load the value at the address into R0
+  MOV   R0, #0x00   // Modify all bits of value to 0 for RGB Off
+  STRB  R0, [R1]    // Store new value at the peripheral address
+  BX    LR          @ Branch back to main
 
 READ_S1_S2:
   LDR   R0, P1IN
