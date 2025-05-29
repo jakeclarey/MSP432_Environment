@@ -13,8 +13,7 @@
       "servertype": "openocd",
       "svdFile": "${workspaceRoot}/!DeviceSpecific/MSP432P401R.svd",
       "configFiles": [
-        "interface/xds110.cfg",
-        "target/ti_msp432.cfg"
+        "board/ti_msp432_launchpad.cfg"
       ],
       "runToEntryPoint": "main",
     }
