@@ -18,10 +18,9 @@
 
 #define LED_DIR (*((volatile unsigned char *)0x42098080))
 #define LED_OUT (*((volatile unsigned char *)0x42098040))
-// #define LED_OUT_TI_METHOD (*((volatile unsigned long long*)0x40004C04))
+// #define LED_OUT_TI_METHOD (*((volatile unsigned long long*)0x40004C02))
 
 int main(void) {
-  volatile uint32_t watchReg = P1->OUT;
   MAP_WDT_A_holdTimer(); /* Stop watchdog timer */
 
   P1->SEL0 = 0;
@@ -30,7 +29,6 @@ int main(void) {
   LED_DIR |= 1;
 
   while (1) {
-    watchReg = P1->OUT;
     LED_OUT = 1;
     SysCtlDelay(BLINK_DELAY);
     LED_OUT = 0;
