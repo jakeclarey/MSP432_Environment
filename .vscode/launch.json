@@ -11,16 +11,12 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
-      "device": "MSP432P401R",
-      "runToEntryPoint": "main",
       "svdFile": "${workspaceRoot}/!DeviceSpecific/MSP432P401R.svd",
       "configFiles": [
-        "board/ti_msp432_launchpad.cfg"
+        "interface/xds110.cfg",
+        "target/ti_msp432.cfg"
       ],
-      "liveWatch": {
-        "enabled": true,
-        "samplesPerSecond": 8
-      }
+      "runToEntryPoint": "main",
     }
   ]
 }
