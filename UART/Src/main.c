@@ -1,7 +1,7 @@
 /**
  * Author: Jacob Clarey
  * Instructor: Dr. Parikh
- * Date: 
+ * Date:
  *
  * Description:
  */
@@ -14,7 +14,7 @@
 
 void UART0_init(void);
 void UART_Send(char c);
-void UART_MultiSend(char *s, uint8_t l);
+void UART_MultiSend(char *s, int l);
 
 int main(void) {
   /* Stop watchdog timer */
@@ -53,7 +53,7 @@ void UART0_init(void) {
 }
 
 void UART_Send(char c) {
-  while (!(EUSCI_A0->IFG & BIT1)) {
+  while (!(EUSCI_A0->IFG & (BIT1 | BIT3))) {
   }
   EUSCI_A0->TXBUF = c;
   SysTick->VAL = 0;
@@ -61,8 +61,8 @@ void UART_Send(char c) {
   }
 }
 
-void UART_MultiSend(char *s, uint8_t l) {
-  for (uint32_t i = 0; i < l; i++) {
+void UART_MultiSend(char *s, int l) {
+  for (int i = 0; i < l; i++) {
     UART_Send(s[i]);
   }
 }
