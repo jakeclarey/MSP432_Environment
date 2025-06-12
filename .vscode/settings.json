@@ -2,7 +2,8 @@
   "files.associations": {
     "msp.h": "c",
     "driverlib.h": "c",
-    "systick.h": "c"
+    "systick.h": "c",
+    "msp432p401r.h": "c"
   },
   "cortex-debug.variableUseNaturalFormat": false,
   // "cortex-debug.gdbPath": "gdb-multiarch" // comment this line out if on MacOS, leave in on Linux
